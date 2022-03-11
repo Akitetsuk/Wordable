@@ -1,0 +1,37 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .game {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    grid-template-rows: repeat(6, 50px);
+    gap: 5px;
+  }
+  
+  .game--cell {
+    border: 1px solid rgba(128, 128, 128, 0.644);
+    color: black;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  
+  .cell__correct {
+    color: white;
+    background-color: green;
+  }
+  
+  .cell__wrong {
+    color: white;
+    background-color: rgb(177, 22, 22);
+  }
+  
+  .cell__anotherposition {
+    color: white;
+    background-color: rgb(190, 128, 13);
+  }
+  
