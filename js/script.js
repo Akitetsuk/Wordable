@@ -1,7 +1,7 @@
 // Estado de nuestra APP. Fila y columna de donde "toca" escribir la siguiente letra
 let row = 0;
 let column = 0;
-let secretWord = "sauna";
+let secretWord = getNextWord();
 let guessedWord = "";
 
 function writeLetter(row, column, letter) {
@@ -26,9 +26,34 @@ function handleInput(event) {
     // En el objeto event, tenemos la propiedad 'key', que nos va a informar de qué tecla ha pulsado el usuario
     let keyPressed = event.key;
 
+    console.log(event.keyCode);
+
+    // Si la tecla pulsada es backspace, ver si podemos borrar la última letra. En tal caso, hacerlo
+    if (event.key == "Backspace" && column != 0) {
+        // 0. Eliminar el textContent de la posición actual
+        // utilizar la función writeLetter para poner un espacio en blanco en el row y column actual
+
+        column--;
+
+        writeLetter(row, column, '');
+
+        // 2. eliminar el último carácter 'guessedWord'
+        // slice o substring
+
+        guessedWord = guessedWord.slice(0, -1);
+
+        return
+    }
+
+    // Si la tecla esta fuera del rango de las letras de la [a...z]; acabamos inmediatamente la función 
+
+    if (event.keyCode < 65 || event.keyCode > 90) {
+        return;
+    }
+
     // 1. Invocar la función writeLetter para escribir la 'keyPressed' en la 'row' y 'column' que tocan
     writeLetter(row, column, keyPressed);
-    guessedWord += keyPressed.toLowerCase(); // guessedWord = guessedWord + keyPressed
+    guessedWord += keyPressed; // guessedWord = guessedWord + keyPressed
 
     // 2. Actualizar el estado de nuestra APP
     // 2.1 Incrementar en 1; la variable 'column'
@@ -41,11 +66,25 @@ function handleInput(event) {
 
         checkRow(row)
 
+        if (checkGameWon()) {
+            document.querySelector(".victory").style.display = "block";
+            document.body.removeEventListener("keyup", handleInput);
+            return;
+        }
+
         row++;
+
+        if (checkGameLoose()) {
+            // hemos perdido
+            // mostrar el mensaje de derrota
+            document.querySelector(".defeat").style.display = "block";
+            document.body.removeEventListener("keyup", handleInput);
+            return;
+        }
+
         column = 0;
         guessedWord = "";
     }
-
 }
 
 function checkRow(row) {
@@ -92,6 +131,17 @@ function rightOrder(palabraSecreta, palabraIntroducida) {
         }
     }//devolvemos array con los datos
     return resultados;
+}
+
+// Devuelve TRUE si hemos acertado la palabra secreta
+function checkGameWon() {
+    return guessedWord == secretWord;
+}
+
+// Devuelve TRUE si hemos agotado todos los intentos
+function checkGameLoose() {
+    // si estamos en la fila 6, hemos perdido
+    return row == 6;
 }
 
 

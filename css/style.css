@@ -35,3 +35,17 @@ main {
     background-color: rgb(190, 128, 13);
   }
   
+  .victory {
+    font-size: 1.2rem;
+    color: green;
+    background-color: black;
+    display: none;
+  }
+
+  
+.defeat {
+  font-size: 1.2rem;
+  color: red;
+  background-color: black;
+  display: none;
+}
